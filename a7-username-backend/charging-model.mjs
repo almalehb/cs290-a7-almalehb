@@ -1,11 +1,8 @@
-// Models for the Movie Collection
+// Models for the Charging Collection
 
 // Import dependencies.
 import mongoose from 'mongoose';
 import 'dotenv/config';
-
-// Date / location / duration / kwh / price per kwh / total price 
-
 
 // Connect based on the .env file parameters.
 mongoose.connect(
@@ -17,69 +14,81 @@ const db = mongoose.connection;
 // Confirm that the database has connected and print a message in the console.
 db.once("open", (err) => {
     if(err){
-        res.status(500).json({ error: 'Unique and specific error message.' });
+        res.status(500).json({ error: 'Unable to connect to MongoDB server. Please try again later.' });
     } else  {
-        console.log('Unique and specific success message.');
+        console.log('Successfully connected to MongoDB server!');
     }
 });
 
 // SCHEMA: Define the collection's schema.
-const movieSchema = mongoose.Schema({
-	title:    { type: String, required: true },
-	year:     { type: Number, required: true },
-	language: { type: String, required: true }
+const chargingSchema = mongoose.Schema({
+	time: { type: Date, required: true },
+	duration: { type: Number, required: true },
+	location: { type: String, required: true },
+    kwh: { type: Number, required: true },
+    pricePerKwh: { type: Number, required: true },
+    totalPrice: { type: Number, required: true },
 });
 
 // Compile the model from the schema 
-// by defining the collection name "movies".
-const movies = mongoose.model('Movie', movieSchema);
+// by defining the collection name "chargingSessions".
+const chargingSessions = mongoose.model('Charging', chargingSchema);
 
 
 // CREATE model *****************************************
-const createMovie = async (title, year, language) => {
-    const movie = new movies({ 
-        title: title, 
-        year: year, 
-        language: language 
+const createChargingSession = async (time, duration, location, kwh, pricePerKwh, totalPrice) => {
+    const chargingSession = new chargingSessions({ 
+        time: time, 
+        duration: duration, 
+        location: location,
+        kwh: kwh,
+        pricePerKwh: pricePerKwh,
+        totalPrice: totalPrice,
     });
-    return movie.save();
+    return chargingSession.save();
 }
 
 
 // RETRIEVE model *****************************************
 // Retrieve based on a filter and return a promise.
-const retrieveMovies = async () => {
-    const query = movies.find();
+const retrieveChargingSessions = async () => {
+    const query = chargingSessions.find();
     return query.exec();
 }
 
 // RETRIEVE by ID
-const retrieveMovieByID = async (_id) => {
-    const query = movies.findById({_id: _id});
+const retrieveChargingSessionByID = async (_id) => {
+    const query = chargingSessions.findById({_id: _id});
     return query.exec();
 }
 
 // DELETE model based on _id  *****************************************
-const deleteMovieById = async (_id) => {
-    const result = await movies.deleteOne({_id: _id});
+const deleteChargingSessionById = async (_id) => {
+    const result = await chargingSessions.deleteOne({_id: _id});
     return result.deletedCount;
 };
 
 
 // UPDATE model *****************************************************
-const updateMovie = async (_id, title, year, language) => {
-    const result = await movies.replaceOne({_id: _id }, {
-        title: title,
-        year: year,
-        language: language
+const updateChargingSession = async (_id, time, duration, location, kwh, pricePerKwh, totalPrice) => {
+    const result = await chargingSessions.replaceOne({_id: _id }, {
+        time: time, 
+        duration: duration, 
+        location: location,
+        kwh: kwh,
+        pricePerKwh: pricePerKwh,
+        totalPrice: totalPrice,
     });
     return { 
         _id: _id, 
-        title: title,
-        year: year,
-        language: language 
+        time: time, 
+        duration: duration, 
+        location: location,
+        kwh: kwh,
+        pricePerKwh: pricePerKwh,
+        totalPrice: totalPrice,
     }
 }
 
 // EXPORT the variables for use in the controller file.
-export { createMovie, retrieveMovies, retrieveMovieByID, updateMovie, deleteMovieById }
+export { createChargingSession, retrieveChargingSessions, retrieveChargingSessionByID, updateChargingSession, deleteChargingSessionById }
