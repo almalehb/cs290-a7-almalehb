@@ -10,14 +10,14 @@ app.use(express.json());  // REST needs JSON MIME type.
 
 
 // CREATE controller ******************************************
-app.post ('/chargingSessions', (req,res) => { 
+app.post('/chargingSessions', (req, res) => {
     chargingSessions.createChargingSession(
         req.body.time,
         req.body.durationInSeconds,
         req.body.address,
         req.body.kwh,
-        req.body.pricePerKwh,
-        )
+        req.body.pricePerKwh
+    )
         .then(chargingSession => {
             res.status(201).json(chargingSession);
         })
@@ -31,13 +31,13 @@ app.post ('/chargingSessions', (req,res) => {
 // RETRIEVE controller ****************************************************
 app.get('/chargingSessions', (req, res) => {
     chargingSessions.retrieveChargingSessions()
-        .then(chargingSession => { 
+        .then(chargingSession => {
             if (chargingSession !== null) {
                 res.json(chargingSession);
             } else {
                 res.status(404).json({ Error: 'There are no charging sessions available.' });
-            }         
-         })
+            }
+        })
         .catch(error => {
             console.log(error);
             res.status(400).json({ Error: 'There was an error in the request to retrieve charging sessions.' });
@@ -48,17 +48,17 @@ app.get('/chargingSessions', (req, res) => {
 // RETRIEVE by ID controller
 app.get('/chargingSessions/:_id', (req, res) => {
     chargingSessions.retrieveChargingSessionByID(req.params._id)
-    .then(chargingSession => { 
-        if (chargingSession !== null) {
-            res.json(chargingSession);
-        } else {
-            res.status(404).json({ Error: 'The requested charging session does not exist.' });
-        }         
-     })
-    .catch(error => {
-        console.log(error);
-        res.status(400).json({ Error: 'There was an error in the request to retrieve the charging session.' });
-    });
+        .then(chargingSession => {
+            if (chargingSession !== null) {
+                res.json(chargingSession);
+            } else {
+                res.status(404).json({ Error: 'The requested charging session does not exist.' });
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(400).json({ Error: 'There was an error in the request to retrieve the charging session.' });
+        });
 
 });
 
@@ -66,20 +66,20 @@ app.get('/chargingSessions/:_id', (req, res) => {
 // UPDATE controller ************************************
 app.put('/chargingSessions/:_id', (req, res) => {
     chargingSessions.updateChargingSession(
-        req.params._id, 
+        req.params._id,
         req.body.time,
         req.body.durationInSeconds,
         req.body.address,
         req.body.kwh,
-        req.body.pricePerKwh,
+        req.body.pricePerKwh
     )
-    .then(chargingSession => {
-        res.json(chargingSession);
-    })
-    .catch(error => {
-        console.log(error);
-        res.status(400).json({ error: 'There was an error in the request to update the charging session.' });
-    });
+        .then(chargingSession => {
+            res.json(chargingSession);
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(400).json({ error: 'There was an error in the request to update the charging session.' });
+        });
 });
 
 

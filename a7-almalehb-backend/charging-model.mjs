@@ -13,36 +13,36 @@ const db = mongoose.connection;
 
 // Confirm that the database has connected and print a message in the console.
 db.once("open", (err) => {
-    if(err){
+    if (err) {
         res.status(500).json({ error: 'Unable to connect to MongoDB server. Please try again later.' });
-    } else  {
+    } else {
         console.log('Successfully connected to MongoDB server!');
     }
 });
 
 // SCHEMA: Define the collection's schema.
 const chargingSchema = mongoose.Schema({
-	time: { type: Date, required: true },
-	durationInSeconds: { 
-        type: Number, 
-        required: true, 
-        min: 1,
+    time: { type: Date, required: true },
+    durationInSeconds: {
+        type: Number,
+        required: true,
+        min: 1
     },
-	address: { 
-        type: String, 
-        required: true, 
-        minLength: 1,
+    address: {
+        type: String,
+        required: true,
+        minLength: 1
     },
-    kwh: { 
-        type: Number, 
-        required: true, 
-        min: 0.01,
-     },
-    pricePerKwh: { 
-        type: Number, 
-        required: true, 
-        min: 0,
+    kwh: {
+        type: Number,
+        required: true,
+        min: 0.01
     },
+    pricePerKwh: {
+        type: Number,
+        required: true,
+        min: 0
+    }
 });
 
 // Compile the model from the schema 
@@ -52,12 +52,12 @@ const chargingSessions = mongoose.model('Charging', chargingSchema);
 
 // CREATE model *****************************************
 const createChargingSession = async (time, durationInSeconds, address, kwh, pricePerKwh) => {
-    const chargingSession = new chargingSessions({ 
-        time: time, 
-        durationInSeconds: durationInSeconds, 
+    const chargingSession = new chargingSessions({
+        time: time,
+        durationInSeconds: durationInSeconds,
         address: address,
         kwh: kwh,
-        pricePerKwh: pricePerKwh,
+        pricePerKwh: pricePerKwh
     });
     return chargingSession.save();
 }
@@ -72,33 +72,33 @@ const retrieveChargingSessions = async () => {
 
 // RETRIEVE by ID
 const retrieveChargingSessionByID = async (_id) => {
-    const query = chargingSessions.findById({_id: _id});
+    const query = chargingSessions.findById({ _id: _id });
     return query.exec();
 }
 
 // DELETE model based on _id  *****************************************
 const deleteChargingSessionById = async (_id) => {
-    const result = await chargingSessions.deleteOne({_id: _id});
+    const result = await chargingSessions.deleteOne({ _id: _id });
     return result.deletedCount;
 };
 
 
 // UPDATE model *****************************************************
 const updateChargingSession = async (_id, time, durationInSeconds, address, kwh, pricePerKwh) => {
-    const result = await chargingSessions.replaceOne({_id: _id }, {
-        time: time, 
-        durationInSeconds: durationInSeconds, 
+    const result = await chargingSessions.replaceOne({ _id: _id }, {
+        time: time,
+        durationInSeconds: durationInSeconds,
         address: address,
         kwh: kwh,
-        pricePerKwh: pricePerKwh,
+        pricePerKwh: pricePerKwh
     });
-    return { 
-        _id: _id, 
-        time: time, 
-        durationInSeconds: durationInSeconds, 
+    return {
+        _id: _id,
+        time: time,
+        durationInSeconds: durationInSeconds,
         address: address,
         kwh: kwh,
-        pricePerKwh: pricePerKwh,
+        pricePerKwh: pricePerKwh
     }
 }
 
