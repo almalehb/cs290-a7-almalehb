@@ -28,7 +28,7 @@ POST http://localhost:3000/chargingSessions HTTP/1.1
 content-type: application/json
 
 {
-    "time": "2021-05-42T08:14:28Z", 
+    "time": "2021-05-02T08:14:28Z", 
     "durationInSeconds": 983, 
     "address": "87th Ontario Rd., Ottawa, ON.",
     "kwh": 33,
@@ -67,23 +67,25 @@ GET http://localhost:3000/chargingSessions HTTP/1.1
 
 ### RETRIEVE a document by its ID.
 ### Replace the following ID with one that exists in the collection.
-GET http://localhost:3000/chargingSessions/64b1858266bab09458b3a96e HTTP/1.1
+GET http://localhost:3000/chargingSessions/64d7d8cea54084ad2b1a6a9d HTTP/1.1
 
 
 ### UPDATE one document's year, by ID.
 ### Replace the ID in the following request with one that exists
 ### and update the year:
-PUT http://localhost:3000/chargingSessions/64b1857a66bab09458b3a966 HTTP/1.1
+PUT http://localhost:3000/chargingSessions/64d7d8cea54084ad2b1a6a9d HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Sorry to Bother You",
-    "year": 2016,
-    "language": "English"
+    "time": "2022-01-02T13:34:13Z", 
+    "durationInSeconds": 2998, 
+    "address": "22 Lombard Blvd., Toronto, ON.",
+    "kwh": 52,
+    "pricePerKwh": 0.22
 }
 
 ### DELETE by ID (responds with nothing if successful):
-DELETE http://localhost:3000/chargingSessions/64b1857a66bab09458b3a966 HTTP/1.1
+DELETE http://localhost:3000/chargingSessions/64d7d8cea54084ad2b1a6a9d HTTP/1.1
 
 
 
