@@ -23,10 +23,26 @@ db.once("open", (err) => {
 // SCHEMA: Define the collection's schema.
 const chargingSchema = mongoose.Schema({
 	time: { type: Date, required: true },
-	durationInSeconds: { type: Number, required: true },
-	address: { type: String, required: true },
-    kwh: { type: Number, required: true },
-    pricePerKwh: { type: Number, required: true },
+	durationInSeconds: { 
+        type: Number, 
+        required: true, 
+        min: 1,
+    },
+	address: { 
+        type: String, 
+        required: true, 
+        minLength: 1,
+    },
+    kwh: { 
+        type: Number, 
+        required: true, 
+        min: 0.01,
+     },
+    pricePerKwh: { 
+        type: Number, 
+        required: true, 
+        min: 0,
+    },
 });
 
 // Compile the model from the schema 
