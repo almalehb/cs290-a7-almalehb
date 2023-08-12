@@ -13,11 +13,10 @@ app.use(express.json());  // REST needs JSON MIME type.
 app.post ('/chargingSessions', (req,res) => { 
     chargingSessions.createChargingSession(
         req.body.time,
-        req.body.duration,
-        req.body.location,
+        req.body.durationInSeconds,
+        req.body.address,
         req.body.kwh,
         req.body.pricePerKwh,
-        req.body.totalPrice,
         )
         .then(chargingSession => {
             res.status(201).json(chargingSession);
@@ -69,11 +68,10 @@ app.put('/chargingSessions/:_id', (req, res) => {
     chargingSessions.updateChargingSession(
         req.params._id, 
         req.body.time,
-        req.body.duration,
-        req.body.location,
+        req.body.durationInSeconds,
+        req.body.address,
         req.body.kwh,
         req.body.pricePerKwh,
-        req.body.totalPrice,
     )
     .then(chargingSession => {
         res.json(chargingSession);

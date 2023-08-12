@@ -23,11 +23,10 @@ db.once("open", (err) => {
 // SCHEMA: Define the collection's schema.
 const chargingSchema = mongoose.Schema({
 	time: { type: Date, required: true },
-	duration: { type: Number, required: true },
-	location: { type: String, required: true },
+	durationInSeconds: { type: Number, required: true },
+	address: { type: String, required: true },
     kwh: { type: Number, required: true },
     pricePerKwh: { type: Number, required: true },
-    totalPrice: { type: Number, required: true },
 });
 
 // Compile the model from the schema 
@@ -36,14 +35,13 @@ const chargingSessions = mongoose.model('Charging', chargingSchema);
 
 
 // CREATE model *****************************************
-const createChargingSession = async (time, duration, location, kwh, pricePerKwh, totalPrice) => {
+const createChargingSession = async (time, durationInSeconds, address, kwh, pricePerKwh) => {
     const chargingSession = new chargingSessions({ 
         time: time, 
-        duration: duration, 
-        location: location,
+        durationInSeconds: durationInSeconds, 
+        address: address,
         kwh: kwh,
         pricePerKwh: pricePerKwh,
-        totalPrice: totalPrice,
     });
     return chargingSession.save();
 }
@@ -70,23 +68,21 @@ const deleteChargingSessionById = async (_id) => {
 
 
 // UPDATE model *****************************************************
-const updateChargingSession = async (_id, time, duration, location, kwh, pricePerKwh, totalPrice) => {
+const updateChargingSession = async (_id, time, durationInSeconds, address, kwh, pricePerKwh) => {
     const result = await chargingSessions.replaceOne({_id: _id }, {
         time: time, 
-        duration: duration, 
-        location: location,
+        durationInSeconds: durationInSeconds, 
+        address: address,
         kwh: kwh,
         pricePerKwh: pricePerKwh,
-        totalPrice: totalPrice,
     });
     return { 
         _id: _id, 
         time: time, 
-        duration: duration, 
-        location: location,
+        durationInSeconds: durationInSeconds, 
+        address: address,
         kwh: kwh,
         pricePerKwh: pricePerKwh,
-        totalPrice: totalPrice,
     }
 }
 
